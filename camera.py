@@ -4,45 +4,45 @@ import numpy as np
 import matplotlib.pyplot as plt
 import time
 
-def classify_sign(frame, contour, shape,count_red,count_blue):
-    x, y, w, h = cv2.boundingRect(contour)
+# def classify_sign(frame, contour, shape,count_red,count_blue):
+#     x, y, w, h = cv2.boundingRect(contour)
 
-    sign_roi = frame[y:y+h, x:x+w]  
+#     sign_roi = frame[y:y+h, x:x+w]  
 
-    if(shape=="triangle"):
-        template_dir = 'C:/Users/Admin/Downloads/traffic_sign/Triangle'
-    elif(shape=="rectangle") :   
-        template_dir = 'C:/Users/Admin/Downloads/traffic_sign/Rectangle'
-    elif(shape=="circle"):
-        if(count_blue):    
-            template_dir = 'C:/Users/Admin/Downloads/traffic_sign/Circle/Blue'
-        else:
-            template_dir = 'C:/Users/Admin/Downloads/traffic_sign/Circle/Red'
-    max_value = -1
-    ten_file = ""
+#     if(shape=="triangle"):
+#         template_dir = 'C:/Users/Admin/Downloads/traffic_sign/Triangle'
+#     elif(shape=="rectangle") :   
+#         template_dir = 'C:/Users/Admin/Downloads/traffic_sign/Rectangle'
+#     elif(shape=="circle"):
+#         if(count_blue):    
+#             template_dir = 'C:/Users/Admin/Downloads/traffic_sign/Circle/Blue'
+#         else:
+#             template_dir = 'C:/Users/Admin/Downloads/traffic_sign/Circle/Red'
+#     max_value = -1
+#     ten_file = ""
 
-    for template_filename in os.listdir(template_dir):
-        template_path = os.path.join(template_dir, template_filename)
+#     for template_filename in os.listdir(template_dir):
+#         template_path = os.path.join(template_dir, template_filename)
         
-        template = cv2.imread(template_path)  
+#         template = cv2.imread(template_path)  
 
-        if template is None:
-            print(f"Không thể đọc file: {template_filename}")
-            continue
+#         if template is None:
+#             print(f"Không thể đọc file: {template_filename}")
+#             continue
 
-        sign_roi_resized = cv2.resize(sign_roi, (template.shape[1], template.shape[0]))
+#         sign_roi_resized = cv2.resize(sign_roi, (template.shape[1], template.shape[0]))
 
-        result = cv2.matchTemplate(sign_roi_resized, template, cv2.TM_CCORR_NORMED)
-        min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
+#         result = cv2.matchTemplate(sign_roi_resized, template, cv2.TM_CCORR_NORMED)
+#         min_val, max_val, min_loc, max_loc = cv2.minMaxLoc(result)
         
-        if max_val > max_value : 
-            max_value = max_val
-            ten_file = template_filename  
+#         if max_val > max_value : 
+#             max_value = max_val
+#             ten_file = template_filename  
 
-    if max_value > 0.7:  
-        ten_file_name, _ = os.path.splitext(ten_file)  # Tách tên file và phần mở rộng
-        print(f"Biển báo khớp với mẫu: {ten_file_name} với độ tương đồng {max_value}")
-        return ten_file_name
+#     if max_value > 0.7:  
+#         ten_file_name, _ = os.path.splitext(ten_file)  # Tách tên file và phần mở rộng
+#         print(f"Biển báo khớp với mẫu: {ten_file_name} với độ tương đồng {max_value}")
+#         return ten_file_name
 
 
 def process_frame(frame):
